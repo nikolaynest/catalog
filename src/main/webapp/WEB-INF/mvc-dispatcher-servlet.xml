@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security-3.2.xsd"
+        >
+
+    <!--Handle requests for static resources-->
+    <!--<mvc:resources mapping="/resources/**" location="/resources/"/>-->
+    <mvc:annotation-driven/>
+
+    <context:annotation-config/>
+
+    <context:component-scan base-package="catalog"/>
+
+    <!-- Resolves views selected for rendering by @Controllers to .jspx resources in the /WEB-INF/pages directory -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/pages/" />
+        <property name="suffix" value=".jspx" />
+    </bean>
+
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages" />
+    </bean>
+
+
+    <!-- with this bean i receive next error:
+     Exception while loading the app : java.lang.IllegalStateException: ContainerBase.addChild:
+     start: org.apache.catalina.LifecycleException: java.lang.NoClassDefFoundError:
+     org/apache/commons/fileupload/FileItemFactory]]
+    -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value=" 500000"/>
+    </bean>
+
+
+
+</beans>

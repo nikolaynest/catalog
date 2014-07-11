@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security-3.2.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <http security="none" pattern="/resources/**"/>
+    <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/**" access="permitAll"/>
+        <intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/authors?new" access="ROLE_ADMIN"/>
+
+        <form-login login-processing-url="/catalog/j_spring_security_check"
+                    login-page="/login"
+                    authentication-failure-url="/login?login-error=t"/>
+        <!--<remember-me key="keyBookCatalog"/>-->
+        <logout invalidate-session="true"
+                logout-url="/logout"
+                logout-success-url="/"/>
+    </http>
+
+    <global-method-security secured-annotations="enabled" jsr250-annotations="enabled"
+            pre-post-annotations="enabled"/>
+
+    <authentication-manager>
+        <authentication-provider>
+            <user-service >
+                <!--<user name="user" password="pass" authorities="ROLE_USER"/>-->
+                <user name="admin" password="pass" authorities="ROLE_ADMIN"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+    <!--<context:component-scan base-package="catalog"/>-->
+
+
+</beans:beans>

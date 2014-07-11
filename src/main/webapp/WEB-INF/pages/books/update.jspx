@@ -1,0 +1,61 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: nickolay
+  Date: 8/22/13
+  Time: 11:15 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:sf="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+    <c:url var="homeUrl" value="/home"/>
+    <c:url var="booksUrl" value="/books"/>
+
+
+    <div>
+        <h4>
+            <a href="${homeUrl}">Главная страница</a> >
+            <a href="${booksUrl}">Список книг</a> > Редактирование книги
+        </h4>
+
+        <sf:form method="POST" modelAttribute="book"  enctype="multipart/form-data"
+                 action="${pageContext.request.contextPath}/books/${book.id}?edit">
+            <table>
+                <tr>
+                    <th><sf:label path="bookTitle">Название книги*</sf:label></th>
+                    <td>
+                        <sf:input path="bookTitle" size="70"/>
+                        <sf:errors path="bookTitle" cssClass="error"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th><sf:label path="description">Краткое описание книги</sf:label></th>
+                    <td>
+                        <sf:textarea path="description" id="book_description" rows="10" cols="70"/>
+                        <sf:errors path="description" cssClass="error"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th><sf:label path="publicationDate">Год издания</sf:label></th>
+                    <td>
+                        <sf:input path="publicationDate" id="book_date"/>
+                        <sf:errors path="publicationDate" cssClass="error"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th><sf:label path="authors">Автор(ы)</sf:label></th>
+                    <td>
+                        <sf:select path="authors" multiple="true"  size="6">
+                            <c:forEach items="${authors}" var="author">
+                                <sf:option value="${author.id}">${author.name} ${author.surname}</sf:option>
+                            </c:forEach>
+                        </sf:select>
+                        <sf:errors path="authors" cssClass="error"/>
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Сохранить изменения"/>
+        </sf:form>
+    </div>
+
+</jsp:root>

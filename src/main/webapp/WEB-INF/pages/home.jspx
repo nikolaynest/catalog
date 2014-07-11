@@ -1,0 +1,27 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: nickolay
+  Date: 8/10/13
+  Time: 2:08 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:spring="http://java.sun.com/jsp/jstl/core"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+
+        >
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+
+    <c:url value="/books" var="booksUrl"/>
+    <spring:url value="/authors" var="authorsUrl"/>
+
+    <html>
+    <head><title>Simple jspx page</title></head>
+    <body>
+    <h3><a href="${booksUrl}">Список книг</a></h3>
+    <h3><a href="${authorsUrl}">Список авторов</a></h3>
+
+    <jsp:include page="header.jspx"/>
+    </body>
+    </html>
+</jsp:root>

@@ -1,0 +1,18 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: nickolay
+  Date: 8/26/13
+  Time: 12:41 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:security="http://www.springframework.org/security/tags"
+        >
+    <security:authorize access="isAnonymous()">
+        <h5><a href="/catalog/login">Войти как админ</a></h5>
+    </security:authorize>
+
+    <security:authorize access="isAuthenticated() and principal.username == 'admin'">
+        <a href="/catalog/logout">Log out</a>
+    </security:authorize>
+</jsp:root>

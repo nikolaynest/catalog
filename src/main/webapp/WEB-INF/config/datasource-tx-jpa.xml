@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <!--Для настройки уровня обслуживания-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/data/jpa
+       http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="catalog.daoServices"/>
+
+
+
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/BookCatalogDB?useUnicode=true&amp;characterEncoding=UTF-8"/>
+        <property name="username" value="root"/>
+        <property name="password" value="life"/>
+        <!--the numbers of connections when the pool is started-->
+        <!--<property name="initialSize" value="1"/>-->
+        <!--The maximum number of connections that can be allocated from the pool at the same time.
+        If zero, there’s no limit.-->
+        <property name="maxActive" value="3"/>
+    </bean>
+
+    <!--
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
+        org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor
+    /**
+     * The LocalSessionFactoryBean for Hibernate 3 implements
+     * PersistenceExceptionTranslator, but the one for Hibernate 4 does not.
+     * Therefore need to declare this bean.
+     * without this bean occur an Error:
+     * No persistence exception translators found in bean factory. Cannot perform exception translation
+     * @return
+     */
+    @Bean
+    public HibernateExceptionTranslator exeptionTranslator(){
+        return new HibernateExceptionTranslator();
+    }
+    -->
+
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    <bean class="org.springframework.orm.hibernate4.HibernateExceptionTranslator"/>
+
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="emf"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <property name="packagesToScan" value="catalog.domain"/>
+        <property name="jpaProperties">
+            <props>
+                <!--<prop key="hibernate.hbm2ddl.auto">create</prop>-->
+                <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.connection.CharSet">UTF-8</prop>
+                <prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+                <prop key="hibernate.connection.useUnicode">true</prop>
+            </props>
+        </property>
+    </bean>
+    <context:annotation-config/>
+
+    <jpa:repositories base-package="catalog.repositories" entity-manager-factory-ref="emf"
+                      transaction-manager-ref="transactionManager"/>
+
+
+    <!--<bean id="transactionManager2" class="org.springframework.orm.hibernate4.HibernateTransactionManager">-->
+        <!--<property name="sessionFactory" ref="sessionFactory"/>-->
+    <!--</bean>-->
+    <!--<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+        <!--<property name="packagesToScan" value="catalog.domain"/>-->
+        <!--<property name="hibernateProperties">-->
+            <!--<props>-->
+                <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>-->
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+                <!--<prop key="hibernate.connection.CharSet">utf8</prop>-->
+                <!--<prop key="hibernate.connection.characterEncoding">utf8</prop>-->
+                <!--<prop key="hibernate.connection.useUnicode">true</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+</beans>

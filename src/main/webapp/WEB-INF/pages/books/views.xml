@@ -1,0 +1,40 @@
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+        <!--Define common layout-->
+<tiles-definitions>
+    <!--<definition name="template" template="/WEB-INF/pages/tiles/main_template.jsp">-->
+        <!--<put-attribute name="top" value="/WEB-INF/pages/tiles/spittleForm.jsp" />-->
+        <!--<put-attribute name="side" value="/WEB-INF/pages/tiles/signinsignup.jsp" />-->
+    <!--</definition>-->
+
+        <!--&lt;!&ndash;Define home tile&ndash;&gt;-->
+    <!--<definition name="home" extends="template">-->
+        <!--<put-attribute name="content" value="/WEB-INF/pages/home.jsp" />-->
+    <!--</definition>-->
+
+    <definition name="template" template="/WEB-INF/pages/tiles/main_template.jspx">
+        <put-attribute name="top" value="/WEB-INF/pages/tiles/header.jspx" />
+        <put-attribute name="side" value="/WEB-INF/pages/tiles/menu.jspx" />
+        <put-attribute name="bottom" value="/WEB-INF/pages/tiles/footer.jspx"/>
+    </definition>
+
+    <!--Define home tile-->
+    <definition name="home" extends="template">
+        <put-attribute name="content" value="/WEB-INF/pages/home.jspx" />
+    </definition>
+</tiles-definitions>
+
+<!--<!DOCTYPE tiles-definitions PUBLIC-->
+               <!--"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"-->
+                <!--"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">-->
+<!--<tiles-definitions>-->
+    <!--<definition extends="default" name="books/list">-->
+        <!--<put-attribute name="body" value="/WEB-INF/pages/books/list.jspx"/>-->
+    <!--</definition>-->
+
+   <!--<definition extends="default" name="books/show">-->
+       <!--<put-attribute name="body" value="/WEB-INF/pages/books/showOne.jspx"/>-->
+<!--</definition>-->
+<!--</tiles-definitions>-->

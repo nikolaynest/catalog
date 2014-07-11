@@ -1,0 +1,56 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: nickolay
+  Date: 8/9/13
+  Time: 11:02 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+        >
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:url value="/books/" var="booksUrl"/>
+    <spring:url value="/home" var="homeUrl"/>
+    <spring:url value="src/main/resources/images/png-file.png" var="templateImageUrl"/>
+
+
+    <div id="bookInfo">
+        <h3><a href="${homeUrl}">Главная страница</a> > <a href="${booksUrl}">Список книг</a></h3>
+
+        <jsp:include page="header.jspx"/>
+
+        <h4>${book.bookTitle}</h4>
+        <c:set var="authors" value="${book.authors}"/>
+
+
+        <table border="1">
+            <tr>
+                <td>Обложка</td>
+                <td>
+                    <c:if test="${book.image == null}">
+                        <img src="${imageUrl}" width="256" height="256"/>
+                    </c:if>
+                </td>
+            </tr>
+            <c:forEach var="author" items="${authors}">
+                <tr>
+                    <td>Автор:</td>
+                    <td><c:out value="${author.name} ${author.surname}"/></td>
+                </tr>
+            </c:forEach>
+            <tr>
+                <td>Краткое описание:</td>
+                <td>${book.description}</td>
+            </tr>
+            <tr>
+                <td>Дата публикации:</td>
+                <td>${book.publicationDate}</td>
+            </tr>
+        </table>
+    </div>
+</jsp:root>

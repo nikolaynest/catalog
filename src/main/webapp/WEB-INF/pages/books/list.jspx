@@ -1,0 +1,110 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: nickolay
+  Date: 8/8/13
+  Time: 11:59 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root
+        xmlns:jsp="http://java.sun.com/JSP/Page"
+        xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:spring="http://www.springframework.org/tags"
+        xmlns:security="http://www.springframework.org/security/tags"
+        xmlns:sf="http://www.springframework.org/tags/form"
+        >
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+
+    <spring:url value="/home" var="homeUrl"/>
+    <spring:url value="/books" var="booksUrl"/>
+    <spring:url value="/resources/images/png-file.png" var="imageUrl"/>
+    <html>
+    <head>
+        <title>Book's list</title>
+        <!--<spring:theme code="styleSheet" var="app_css"/>-->
+        <!--<spring:url value="/${app_css}" var="app_css_url"/>-->
+        <!--<link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}"/>-->
+    </head>
+
+    <body>
+    <h3><a href="${homeUrl}">Главная страница</a></h3>
+
+    <jsp:include page="header.jspx"/>
+
+    <table>
+        <tr>
+        <sf:form method="POST" action="${pageContext.request.contextPath}/books/search">
+            <td><label for="title_id">Введите название книги</label></td>
+            <td><input id="title_id" name="bookTitle" type="text"/></td>
+            <td><input type="submit" value="Поиск"/></td>
+        </sf:form>
+        </tr>
+    </table>
+
+
+    <h2>Список книг</h2>
+
+    <security:authorize access="isAuthenticated() and principal.username=='admin'">
+        <input type="submit" value="Создать новую книгу"
+               onclick="location.href='${pageContext.request.contextPath}/books?new'"/>
+    </security:authorize>
+
+    <c:if test="${not empty books}">
+
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Publication date</th>
+                <th>Authors</th>
+                <security:authorize access="isAuthenticated() and principal.username == 'admin'">
+                    <th>Actions</th>
+                </security:authorize>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${books}" var="book">
+                <c:set var="authorsList" value="${book.authors}"/>
+                <tr>
+                    <td>
+                        <img src="${imageUrl}" width="48" height="48"/>
+                    </td>
+                    <td>
+                        <a href="${booksUrl}/${book.id}">${book.bookTitle}</a>
+                    </td>
+                    <td>${book.description}</td>
+                    <td>${book.publicationDate}</td>
+                    <td>
+                        <table>
+                            <c:forEach items="${authorsList}" var="author">
+                                <tr>
+                                    <td>
+                                        <c:out value="${author.name } ${author.surname}"/>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </td>
+                    <security:authorize access="isAuthenticated() and principal.username == 'admin'">
+                        <td>
+                            <table>
+                                <tr>
+                                    <td><a href="${booksUrl}/${book.id}?edit">Модифицировать</a></td>
+                                    <td><a href="${booksUrl}/${book.id}?delete">Удалить</a></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </security:authorize>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+    </body>
+    </html>
+</jsp:root>

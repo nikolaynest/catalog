@@ -1,0 +1,47 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: nickolay
+  Date: 8/22/13
+  Time: 11:15 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:sf="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+    <c:url var="homeUrl" value="/home"/>
+    <c:url var="authorsUrl" value="/authors"/>
+
+
+    <div>
+        <h4>
+            <a href="${homeUrl}">Главная страница</a> >
+            <a href="${authorsUrl}">Список авторов</a> > Редактирование автора
+        </h4>
+
+        <sf:form method="POST" modelAttribute="author"
+                 action="${pageContext.request.contextPath}/authors/${author.id}?edit">
+            <h3>Заполните необходимые поля и нажмите кнопку <input type="submit" value="Применить"/></h3>
+            <table>
+                <tr>
+                    <th>
+                        <sf:label path="name">Имя автора*</sf:label>
+                    </th>
+                    <td>
+                        <sf:input path="name" size="20"/>
+                        <sf:errors path="name" cssClass="error"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <sf:label path="surname">Фамилия автора*</sf:label>
+                    </th>
+                    <td>
+                        <sf:input path="surname" size="20"/>
+                        <sf:errors path="surname" cssClass="error"/>
+                    </td>
+                </tr>
+            </table>
+        </sf:form>
+    </div>
+
+</jsp:root>

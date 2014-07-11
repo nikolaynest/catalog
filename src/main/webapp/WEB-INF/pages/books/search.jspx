@@ -1,0 +1,19 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: nickolay
+  Date: 8/26/13
+  Time: 7:47 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:sf="http://www.springframework.org/tags/form">
+
+    <div>
+        <sf:form method="POST" action="${pageContext.request.contextPath}/books/search">
+            <label for="title_id">Введите название книги</label>
+            <input id="title_id" name="bookTitle" type="text"/>
+            <input type="submit" value="Поиск"/>
+        </sf:form>
+
+    </div>
+</jsp:root>
